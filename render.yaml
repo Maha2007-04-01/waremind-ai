@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: waremind-ai-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt && python database/seed.py
+    startCommand: gunicorn --workers 2 --bind 0.0.0.0:$PORT "app:create_app()"
+    plan: free
+    region: singapore
+    envVars:
+      - key: SECRET_KEY
+        value: set-this-in-render-dashboard
+      - key: FLASK_ENV
+        value: production
+      - key: FLASK_DEBUG
+        value: "False"
+      - key: DATABASE_PATH
+        value: /opt/render/project/src/backend/database/waremind.db
+      - key: PYTHON_VERSION
+        value: "3.11.0"
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: GEMINI_API_KEY
+        value: ""
